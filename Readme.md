@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ярослав Колобков](https://up.htmlacademy.ru/javascript/12/user/449065).
-* Наставник: `Неизвестно`.
+* Наставник: `Вадим Протасов (vadik.protasov@gmail.com, https://github.com/imdkva)`.
 
 ---
 
