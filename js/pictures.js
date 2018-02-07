@@ -13,34 +13,34 @@ var COMMENTS_GENERATION = [
 
 var Likes = randomLikes(15, 185);
 
-var COMENTS_INDEX = randomLikes(1, 6);
+var COMENTS_INDEX = randomLikes(1, 5);
 
 var PICTURES_URL = [
-  photos/{{0}}.jpg,
-photos/{{1}}.jpg,
-photos/{{2}}.jpg,
-photos/{{3}}.jpg,
-photos/{{4}}.jpg,
-photos/{{5}}.jpg,
-photos/{{6}}.jpg,
-photos/{{7}}.jpg,
-photos/{{8}}.jpg,
-photos/{{9}}.jpg,
-photos/{{10}}.jpg,
-photos/{{11}}.jpg,
-photos/{{12}}.jpg,
-photos/{{13}}.jpg,
-photos/{{14}}.jpg,
-photos/{{15}}.jpg,
-photos/{{16}}.jpg,
-photos/{{17}}.jpg,
-photos/{{18}}.jpg,
-photos/{{19}}.jpg,
-photos/{{20}}.jpg,
-photos/{{21}}.jpg,
-photos/{{22}}.jpg,
-photos/{{23}}.jpg,
-photos/{{24}}.jpg
+  'photos/{{0}}.jpg',
+'photos/{{1}}.jpg',
+'photos/{{2}}.jpg',
+'photos/{{3}}.jpg',
+'photos/{{4}}.jpg',
+'photos/{{5}}.jpg',
+'photos/{{6}}.jpg',
+'photos/{{7}}.jpg',
+'photos/{{8}}.jpg',
+'photos/{{9}}.jpg',
+'photos/{{10}}.jpg',
+'photos/{{11}}.jpg',
+'photos/{{12}}.jpg',
+'photos/{{13}}.jpg',
+'photos/{{14}}.jpg',
+'photos/{{15}}.jpg',
+'photos/{{16}}.jpg',
+'photos/{{17}}.jpg',
+'photos/{{18}}.jpg',
+'photos/{{19}}.jpg',
+'photos/{{20}}.jpg',
+'photos/{{21}}.jpg',
+'photos/{{22}}.jpg',
+'photos/{{23}}.jpg',
+'photos/{{24}}.jpg'
 ];
 
 var pictures = [
@@ -170,3 +170,28 @@ var pictures = [
     comments: COMMENTS_GENERATION[COMENTS_INDEX]
   },
 ];
+
+var renderPicture = function(pictures) {
+
+  var pictureElement = pictureTemplate.cloneNode(true);
+
+  pictureElement.querySelector('img[src]').TextContent = pictures[i].url;
+  pictureElement.querySelector('.picture-comments').TextContent = pictures[i].comments;
+  pictureElement.querySelector('.picture-likes').TextContent = pictures[i].likes;
+
+  return pictureElement;
+}
+
+var pictureTemplate = document.querySelector('#picture-tamplate').content; /.. Переменная блока темплейт ../
+
+var fragment = document.createDocumentFragment();
+
+for (var i = 0; i < pictures.length; i++) {
+
+  fragment.appendChild(renderPicture(pictures[i]));
+}
+
+document.querySelector('.gallery-overlay').classList.remove('hidden');
+pictureElement.querySelector('.gallery-overlay-image.img[src]').TextContent = pictures[0].url;
+pictureElement.querySelector('.comments-count').TextContent = pictures[0].comments;
+pictureElement.querySelector('.likes-count').TextContent = pictures[0].likes;
