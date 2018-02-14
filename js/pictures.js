@@ -2,14 +2,14 @@
 
 var pictureTemplate = document.querySelector('#picture-template').content; // Переменная блока темплейт
 
-var GalleryOverlay = document.querySelector('.gallery-overlay').content;
+var galleryOverlay = document.querySelector('.gallery-overlay').content;
 
-var randomNumber = function (a, b) {
+var getRandomNumber = function (a, b) {
   var rand = a + Math.round(((b - a) * Math.random()));
   return rand;
 };
 
-var COMMENTS_GENERATION = [
+var commentsExamples = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -18,43 +18,30 @@ var COMMENTS_GENERATION = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-var Likes = randomNumber(15, 200);
+var likesGenaration = getRandomNumber(15, 200);
 
-var COMENTS_INDEX = randomNumber(0, 5);
-
-var PICTURES_URL = [];
-
-var ArrayPhotos = function () {  
-
-  for (var i = 0; i < 24; i++) {
-
-    PICTURES_URL[i] = 'photos/{{i}}.jpg';
-
-  }
-  return PICTURES_URL;
-};
-
-var PhotosArray = ArrayPhotos();
+var commentsIndexGeneration = getRandomNumber(0, 5);
 
 var pictures = [];
 
-var ArrayPictures = function () {
-
+var getArrayPictures = function(array) {
   for (var i = 0; i < 24; i++) {
-    pictures.url[i] = PICTURES_URL[i];
-    pictures.likes[i] = Likes;
-    pictures.comments[i] = COMMENTS_GENERATION[COMENTS_INDEX]; 
+    var objectPhoto = { };
+    var indexPhoto = i + 1;
+    objectPhoto.url = 'photos/indexPhoto.jpg';
+    objectPhoto.likes = getRandomNumber(15, 200);
+    objectPhoto.comments = commentsExamples[getRandomNumber(0, 5)];
+    pictures[i] = objectPhoto;
   }
-  return pictures;
-}; 
+};
 
-var PicturesGeneration = ArrayPictures();
+getArrayPictures(pictures);
 
 var renderPicture = function (picture) {
 
   var pictureElement = pictureTemplate.cloneNode(true);
 
-  pictureElement.querySelector('imgSrc').value = picture.url;
+  pictureElement.querySelector('img').setAttribute(src, picture.url); 
   pictureElement.querySelector('.picture-comments').TextContent = picture.comments;
   pictureElement.querySelector('.picture-likes').TextContent = picture.likes;
 
@@ -70,8 +57,8 @@ for (var i = 0; i < pictures.length - 1; i++) {
 
 document.querySelector('.gallery-overlay').classList.remove('hidden');
 
-GalleryOverlay.cloneNode(true);
+galleryOverlay.cloneNode(true);
 
-GalleryOverlay.querySelector('imgSrc').value = pictures[0].url;
-GalleryOverlay.querySelector('.comments-count').TextContent = pictures[0].comments;
-GalleryOverlay.querySelector('.likes-count').TextContent = pictures[0].likes;
+galleryOverlay.querySelector('imgSrc').value = pictures.url[0];
+galleryOverlay.querySelector('.comments-count').TextContent = pictures.comments[0];
+galleryOverlay.querySelector('.likes-count').TextContent = pictures.likes[0];
