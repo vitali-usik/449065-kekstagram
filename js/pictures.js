@@ -4,6 +4,14 @@ var pictureTemplate = document.querySelector('#picture-template').content; // П
 
 var galleryOverlay = document.querySelector('.gallery-overlay').content;
 
+var picturesDraw = document.querySelector('.pictures').content;
+
+var galleryOverlayComments = document.querySelector('.gallery-overlay-controls-comments').content;
+
+var galleryOverlayLikes = document.querySelector('.gallery-overlay-controls-like').content;
+
+var galleryOverlayImage = document.querySelector('.gallery-overlay-image').content;
+
 var getRandomNumber = function (a, b) {
   var rand = a + Math.round(((b - a) * Math.random()));
   return rand;
@@ -18,21 +26,19 @@ var commentsExamples = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-var likesGenaration = getRandomNumber(15, 200);
-
-var commentsIndexGeneration = getRandomNumber(0, 5);
-
 var pictures = [];
 
-var getArrayPictures = function(array) {
+var getArrayPictures = function (array) {
   for (var i = 0; i < 24; i++) {
     var objectPhoto = { };
     var indexPhoto = i + 1;
-    objectPhoto.url = 'photos/indexPhoto.jpg';
+    indexPhoto = indexPhoto + '';
+    objectPhoto.url = 'photos/' + indexPhoto + '.jpg';
     objectPhoto.likes = getRandomNumber(15, 200);
     objectPhoto.comments = commentsExamples[getRandomNumber(0, 5)];
-    pictures[i] = objectPhoto;
+    array[i] = objectPhoto;
   }
+  return array;
 };
 
 getArrayPictures(pictures);
@@ -41,7 +47,7 @@ var renderPicture = function (picture) {
 
   var pictureElement = pictureTemplate.cloneNode(true);
 
-  pictureElement.querySelector('img').setAttribute(src, picture.url); 
+  pictureElement.querySelector('.picture').setAttribute('src', picture.url);
   pictureElement.querySelector('.picture-comments').TextContent = picture.comments;
   pictureElement.querySelector('.picture-likes').TextContent = picture.likes;
 
@@ -55,10 +61,10 @@ for (var i = 0; i < pictures.length - 1; i++) {
   fragment.appendChild(renderPicture(pictures[i]));
 }
 
+picturesDraw.appendChild(fragment);
+
 document.querySelector('.gallery-overlay').classList.remove('hidden');
 
-galleryOverlay.cloneNode(true);
-
-galleryOverlay.querySelector('imgSrc').value = pictures.url[0];
-galleryOverlay.querySelector('.comments-count').TextContent = pictures.comments[0];
-galleryOverlay.querySelector('.likes-count').TextContent = pictures.likes[0];
+galleryOverlayImage.setAttribute('src', pictures.url[0]);
+galleryOverlayComments.insertAdjacentText('afterbegin', pictures.comments[0]);
+galleryOverlayLikes.insertAdjacentText('afterbegin', pictures.likes[0]);
