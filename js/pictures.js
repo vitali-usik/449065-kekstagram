@@ -4,13 +4,13 @@ var pictureTemplate = document.querySelector('#picture-template').content; // П
 
 var galleryOverlay = document.querySelector('.gallery-overlay').content;
 
-var picturesDraw = document.querySelector('.pictures').content;
+var picturesDraw = document.querySelector('.pictures');
 
 var galleryOverlayComments = document.querySelector('.gallery-overlay-controls-comments').content;
 
 var galleryOverlayLikes = document.querySelector('.gallery-overlay-controls-like').content;
 
-var galleryOverlayImage = document.querySelector('.gallery-overlay-image').content;
+var galleryOverlayImage = document.querySelector('.gallery-overlay-image');
 
 var getRandomNumber = function (a, b) {
   var rand = a + Math.round(((b - a) * Math.random()));
@@ -59,6 +59,7 @@ var fragment = document.createDocumentFragment();
 for (var i = 0; i < pictures.length - 1; i++) {
 
   fragment.appendChild(renderPicture(pictures[i]));
+
 }
 
 picturesDraw.appendChild(fragment);
