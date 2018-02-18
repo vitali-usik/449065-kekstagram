@@ -1,17 +1,5 @@
 'use strict';
 
-var pictureTemplate = document.querySelector('#picture-template').content; // Переменная блока темплейт
-
-var galleryOverlay = document.querySelector('.gallery-overlay').content;
-
-var picturesDraw = document.querySelector('.pictures');
-
-var galleryOverlayComments = document.querySelector('.gallery-overlay-controls-comments').content;
-
-var galleryOverlayLikes = document.querySelector('.gallery-overlay-controls-like').content;
-
-var galleryOverlayImage = document.querySelector('.gallery-overlay-image');
-
 var getRandomNumber = function (a, b) {
   var rand = a + Math.round(((b - a) * Math.random()));
   return rand;
@@ -28,7 +16,7 @@ var commentsExamples = [
 
 var pictures = [];
 
-var getArrayPictures = function (array) {
+var getArrayPictures = function () {
   for (var i = 0; i < 24; i++) {
     var objectPhoto = { };
     var indexPhoto = i + 1;
@@ -36,36 +24,55 @@ var getArrayPictures = function (array) {
     objectPhoto.url = 'photos/' + indexPhoto + '.jpg';
     objectPhoto.likes = getRandomNumber(15, 200);
     objectPhoto.comments = commentsExamples[getRandomNumber(0, 5)];
-    array[i] = objectPhoto;
+    pictures[i] = objectPhoto;
   }
-  return array;
+  return pictures;
 };
 
-getArrayPictures(pictures);
+getArrayPictures();
 
-var renderPicture = function (picture) {
+var pictureTemplate = document.querySelector('#picture-template').content; // Переменная блока темплейт
+
+var renderPicture = function (picture) { // Функция создания ДОМ-элементов на основе шаблона  темплейт для массива pictures
 
   var pictureElement = pictureTemplate.cloneNode(true);
 
-  pictureElement.querySelector('.picture').setAttribute('src', picture.url);
-  pictureElement.querySelector('.picture-comments').TextContent = picture.comments;
-  pictureElement.querySelector('.picture-likes').TextContent = picture.likes;
+  pictureElement.querySelector('img').setAttribute('src', picture.url);
+  pictureElement.querySelector('.picture-comments').textContent = picture.comments;
+  pictureElement.querySelector('.picture-likes').textContent = picture.likes;
 
   return pictureElement;
 };
 
-var fragment = document.createDocumentFragment();
+var picturesDraw = document.querySelector('.pictures');
 
-for (var i = 0; i < pictures.length - 1; i++) {
+var paintingPictures = function (array) { // Функция отрисовки ДОМ-элементов методом document fragment массива pictures
 
-  fragment.appendChild(renderPicture(pictures[i]));
+  var fragment = document.createDocumentFragment();
 
-}
+  for (var i = 0; i < array.length - 1; i++) {
 
-picturesDraw.appendChild(fragment);
+    fragment.appendChild(renderPicture(array[i]));
 
-document.querySelector('.gallery-overlay').classList.remove('hidden');
+  }
+  picturesDraw.appendChild(fragment);
 
-galleryOverlayImage.setAttribute('src', pictures.url[0]);
-galleryOverlayComments.insertAdjacentText('afterbegin', pictures.comments[0]);
-galleryOverlayLikes.insertAdjacentText('afterbegin', pictures.likes[0]);
+};
+
+paintingPictures(pictures);
+
+document.querySelector('.gallery-overlay').classList.remove('hidden'); // Функция отрисовки методом document fragment массива pictures
+
+var galleryOverlayComments = document.querySelector('.gallery-overlay-controls-comments');
+
+var galleryOverlayLikes = document.querySelector('.gallery-overlay-controls-like');
+
+var galleryOverlayImage = document.querySelector('.gallery-overlay-image');
+
+var drawToGallery = function (array) { // Заполнение элемента gallery-overlay
+  galleryOverlayImage.setAttribute('src', array[0].url);
+  galleryOverlayComments.textContent = array[0].comments;
+  galleryOverlayLikes.textContent = array[0].likes;
+};
+
+drawToGallery(pictures);
