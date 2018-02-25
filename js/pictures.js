@@ -55,16 +55,33 @@ var paintingPictures = function (array) { // Функция отрисовки �
 
 paintingPictures(pictures);
 
-document.querySelector('.gallery-overlay').classList.remove('hidden'); // Функция отрисовки методом document fragment массива pictures
-
+var pictureElements = document.querySelectorAll('.picture');
 var galleryOverlayComments = document.querySelector('.gallery-overlay-controls-comments');
-var galleryOverlayLikes = document.querySelector('.likes-count');
+var galleryOverlayLikes = document.querySelector('.gallery-overlay-controls-like');
 var galleryOverlayImage = document.querySelector('.gallery-overlay-image');
+var galleryOverlayClose = document.querySelector('.gallery-overlay-close');
 
-var drawToGallery = function (array) { // Заполнение элемента gallery-overlay
-  galleryOverlayImage.setAttribute('src', array[0].url);
-  galleryOverlayComments.textContent = array[0].comments.length;
-  galleryOverlayLikes.textContent = array[0].likes;
+var galleryOverlayClick = function () {
+  document.querySelector('.gallery-overlay').classList.remove('hidden');
+  galleryOverlayImage.setAttribute('src', pictures[i].url);
+  galleryOverlayComments.textContent = pictures[i].comments;
+  galleryOverlayLikes.textContent = pictures[i].likes;
 };
 
-drawToGallery(pictures);
+var galleryOverlayClickClose = function () {
+  document.querySelector('.gallery-overlay').classList.add('hidden');
+};
+
+var galleryEsc = function (evt) {
+  if (evt.keyCode === 27) {
+    document.querySelector('.gallery-overlay').classList.add('hidden');
+  }
+};
+
+for (var i = 1; i < pictureElements.length; i++) {
+  pictureElements[i].addEventListener('click', galleryOverlayClick);
+
+  galleryOverlayClose.addEventListener('click', galleryOverlayClickClose);
+
+  document.addEventListener('keydown', galleryEsc);
+}
