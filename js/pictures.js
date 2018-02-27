@@ -61,7 +61,8 @@ var galleryOverlayLikes = document.querySelector('.gallery-overlay-controls-like
 var galleryOverlayImage = document.querySelector('.gallery-overlay-image');
 var galleryOverlayClose = document.querySelector('.gallery-overlay-close');
 
-var galleryOverlayClick = function () {
+var galleryOverlayClick = function (evt) {
+  evt.preventDefault();
   document.querySelector('.gallery-overlay').classList.remove('hidden');
   galleryOverlayImage.setAttribute('src', pictures[i].url);
   galleryOverlayComments.textContent = pictures[i].comments;
