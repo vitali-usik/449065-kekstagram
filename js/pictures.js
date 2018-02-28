@@ -95,29 +95,28 @@ var uploadCancel = document.querySelector('#upload-cancel');
 // var uploadEffect = document.querySelector('.upload-effect');
 // var uploadForm = document.querySelector('#upload-select-image');
 
-var formReset = function (evt) {
-  uploadFile.target.reset();
-};
+// var formReset = function () {
+// uploadFile.target.reset();
+// };
 
-var uploadFileClose = function () {
-  formReset;
-  uploadOverlay.classList.add('hidden');
-};
-
-var uploadFileEsc = function (evt) {
+var onUploadDialogPress = function (evt) {
   if (evt.keyCode === 27) {
-    formReset;
     uploadOverlay.classList.add('hidden');
   }
 };
 
+var uploadFileClose = function () {
+  document.removeEventListener('keydown', onUploadDialogPress);
+  uploadOverlay.classList.add('hidden');
+};
+
 var uploadFileOpen = function () {
   uploadOverlay.classList.remove('hidden');
+  document.addEventListener('keydown', onUploadDialogPress);
 };
 
 uploadFile.addEventListener('change', uploadFileOpen);
 uploadCancel.addEventListener('click', uploadFileClose);
-uploadCancel.addEventListener('click', uploadFileEsc);
 
 // var uploadEffectLevelPin = document.querySelector('upload-effect-level-pin');
 
