@@ -34,10 +34,11 @@ var getArrayPictures = function () {
 
 var pictures = getArrayPictures();
 var pictureTemplate = document.querySelector('#picture-template').content; // Переменная блока темплейт
-var renderPicture = function (picture) { // Функция создания ДОМ-элементов на основе шаблона  темплейт для массива pictures
+var renderPicture = function (picture, index) { // Функция создания ДОМ-элементов на основе шаблона  темплейт для массива pictures
 
   var pictureElement = pictureTemplate.cloneNode(true);
   pictureElement.querySelector('img').setAttribute('src', picture.url);
+  pictureElement.querySelector('img').setAttribute('data-element-id', index);
   pictureElement.querySelector('.picture-comments').textContent = picture.comments;
   pictureElement.querySelector('.picture-likes').textContent = picture.likes;
   return pictureElement;
@@ -48,7 +49,7 @@ var paintingPictures = function (array) { // Функция отрисовки �
   var fragment = document.createDocumentFragment();
 
   for (var i = 0; i < array.length - 1; i++) {
-    fragment.appendChild(renderPicture(array[i]));
+    fragment.appendChild(renderPicture(array[i], i));
   }
   picturesDraw.appendChild(fragment);
 };
@@ -56,17 +57,18 @@ var paintingPictures = function (array) { // Функция отрисовки �
 paintingPictures(pictures);
 
 var pictureElements = document.querySelectorAll('.picture');
-var galleryOverlayComments = document.querySelector('.gallery-overlay-controls-comments');
-var galleryOverlayLikes = document.querySelector('.gallery-overlay-controls-like');
+var galleryOverlayComments = document.querySelector('.comments-count');
+var galleryOverlayLikes = document.querySelector('.likes-count');
 var galleryOverlayImage = document.querySelector('.gallery-overlay-image');
 var galleryOverlayClose = document.querySelector('.gallery-overlay-close');
 
 var galleryOverlayClick = function (evt) {
   evt.preventDefault();
+  var currentId = evt.target.getAttribute('data-element-id');
   document.querySelector('.gallery-overlay').classList.remove('hidden');
-  galleryOverlayImage.setAttribute('src', pictures[i].url);
-  galleryOverlayComments.textContent = pictures[i].comments;
-  galleryOverlayLikes.textContent = pictures[i].likes;
+  galleryOverlayImage.setAttribute('src', pictures[currentId].url);
+  galleryOverlayComments.textContent = pictures[currentId].comments.length;
+  galleryOverlayLikes.textContent = pictures[currentId].likes;
 };
 
 var galleryOverlayClickClose = function () {
@@ -79,10 +81,48 @@ var galleryEsc = function (evt) {
   }
 };
 
-for (var i = 1; i < pictureElements.length; i++) {
+for (var i = 0; i < pictureElements.length; i++) {
   pictureElements[i].addEventListener('click', galleryOverlayClick);
 
   galleryOverlayClose.addEventListener('click', galleryOverlayClickClose);
 
   document.addEventListener('keydown', galleryEsc);
 }
+
+var uploadFile = document.querySelector('#upload-file');
+var uploadOverlay = document.querySelector('.upload-overlay');
+var uploadCancel = document.querySelector('#upload-cancel');
+// var uploadEffect = document.querySelector('.upload-effect');
+// var uploadForm = document.querySelector('#upload-select-image');
+
+var formReset = function (evt) {
+  uploadFile.target.reset();
+};
+
+var uploadFileClose = function () {
+  formReset;
+  uploadOverlay.classList.add('hidden');
+};
+
+var uploadFileEsc = function (evt) {
+  if (evt.keyCode === 27) {
+    formReset;
+    uploadOverlay.classList.add('hidden');
+  }
+};
+
+var uploadFileOpen = function () {
+  uploadOverlay.classList.remove('hidden');
+};
+
+uploadFile.addEventListener('change', uploadFileOpen);
+uploadCancel.addEventListener('click', uploadFileClose);
+uploadCancel.addEventListener('click', uploadFileEsc);
+
+// var uploadEffectLevelPin = document.querySelector('upload-effect-level-pin');
+
+// var uploadLevelPin = function () {
+
+// }
+
+// uploadEffectLevelPin.addEventListener('mouseup', uploadLevelPin);
