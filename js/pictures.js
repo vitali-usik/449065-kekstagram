@@ -124,25 +124,31 @@ var uploadResizeControlsValue = document.querySelector('.upload-resize-controls-
 var uploadResizeValueIncrease = document.querySelector('.upload-resize-controls-button-inc');
 var uploadResizeValueDecrease = document.querySelector('.upload-resize-controls-button-dec');
 
+// RESIZE CODE
+var RESIZE_IMAGE_STEP = 25;
+var effectImagePreview = document.querySelector('.effect-image-preview');
+
 var resizeIncrease = function () {
-  var sizeValue = uploadResizeControlsValue.value;
-  var sizeStep = 25;
+  var sizeValue = parseInt(uploadResizeControlsValue.value, 10);
+
   if (sizeValue < 100) {
-    sizeValue = (sizeValue + sizeStep);
-    uploadResizeControlsValue.setAttribute('value', sizeValue);
+    sizeValue = (sizeValue + RESIZE_IMAGE_STEP);
+    uploadResizeControlsValue.setAttribute('value', sizeValue + '%');
+    effectImagePreview.style.transform = 'scale(' + sizeValue / 100 + ')';
   }
 };
 
 var resizeDecrease = function () {
-  var sizeValue = uploadResizeControlsValue.value;
-  var sizeStep = 25;
-  if (sizeValue > 0) {
-    sizeValue = (sizeValue - sizeStep);
-    uploadResizeControlsValue.setAttribute('value', sizeValue);
+  var sizeValue = parseInt(uploadResizeControlsValue.value, 10);
+
+  if (sizeValue > RESIZE_IMAGE_STEP) {
+    sizeValue = (sizeValue - RESIZE_IMAGE_STEP);
+    uploadResizeControlsValue.setAttribute('value', sizeValue + '%');
+    effectImagePreview.style.transform = 'scale(' + sizeValue / 100 + ')';
   }
 };
 
-uploadResizeControlsValue.setAttribute('value', 100);
+uploadResizeControlsValue.setAttribute('value', '100%');
 uploadResizeValueIncrease.addEventListener('click', resizeIncrease);
 uploadResizeValueDecrease.addEventListener('click', resizeDecrease);
 
